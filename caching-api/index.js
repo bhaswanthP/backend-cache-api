@@ -10,9 +10,8 @@ app.use('cors');
 const cache = new Map();
 const MAX_SIZE = process.env.MAX_SIZE || 10;
 
-app.get('/cache_status', (req, res) => {
-    const cacheEntries = Array.from(cache.entries()).map(([key, value]) => ({ key, value }));
-    res.status(200).json(cacheEntries);
+app.get('/', (req, res) => {
+    res.send('Welcome to the Backend Cache API');
 });
 
 app.post('/cache', (req, res) => {
@@ -43,6 +42,11 @@ app.delete('/cache/:key', (req, res) => {
         return res.status(200)
                     .json({ message: 'Key-Value pair deleted', key });    }
     res.status(404).json({ error: 'Key not found' });
+});
+
+app.get('/cache_status', (req, res) => {
+    const cacheEntries = Array.from(cache.entries()).map(([key, value]) => ({ key, value }));
+    res.status(200).json(cacheEntries);
 });
 
 const PORT = process.env.PORT || 3010;
